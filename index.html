@@ -4,6 +4,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="jquery.timeago.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
@@ -11,6 +12,7 @@
     <section>
     <h1>A global community of friends and strangers answering one simple question: <span class="highlight">What are you doing?</span> Answer on your phone, IM, or right here on the web!</h1>
     <p id="tagline">Look at what <a href="http://www.techxav.com/wp-content/uploads/external/farm4.static.flickr.com/3014/3704369760_67efb692d1.jpg">these people</a> are doing right now...</p>
+    <p><a href="#" id="refresh">Refresh feed</a></p>
     <div id="feed">
     </div>
     </section>
@@ -19,21 +21,33 @@
 
       $(document).ready(function(){
         var $feed = $('#feed');
-        //$body.html('');
-
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          if(index%2==0){
-            $tweet.addClass('darkened');
+        
+        var fill = function(user) {
+          var index = streams.home.length - 1, tweet,$tweet;
+          $('.tweet').remove();
+          while(index >= 0){
+            console.log(index + " " + user);
+            tweet = streams.home[index];
+            if(user == undefined || user == tweet.user){
+              $tweet = $('<div></div>');
+              if(index%2==0){
+                $tweet.addClass('darkened');
+              }
+              $tweet.append($('<p><a href="#" class="user">' + tweet.user + '</a> ' + tweet.message +' <a href="" class="time">' + $.timeago(tweet.created_at) +'</a></p>'));
+              $tweet.addClass('tweet');
+              $tweet.appendTo($feed);
+            }
+            index -= 1;
           }
-          $tweet.append($('<p><a href="">' + tweet.user + '</a> ' + tweet.message +'</p>'));
-          $tweet.appendTo($feed);
-          index -= 1;
-        }
+        };
 
-      });
+        fill();
+
+        $('.user').on('click', function(){ fill($(this).text()); });
+
+        $('#refresh').on('click', function(){ fill(); });
+
+    });
 
     </script>
   </body>
