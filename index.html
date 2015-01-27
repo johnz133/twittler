@@ -10,13 +10,11 @@
     <img id="logo" src="logo.png">
     <section>
     <h1>A global community of friends and strangers answering one simple question: <span class="highlight">What are you doing?</span> Answer on your phone, IM, or right here on the web!</h1>
-    <p>Look at what <a href="http://www.techxav.com/wp-content/uploads/external/farm4.static.flickr.com/3014/3704369760_67efb692d1.jpg">these people</a> are doing right now...</p>
+    <p id="tagline">Look at what <a href="http://www.techxav.com/wp-content/uploads/external/farm4.static.flickr.com/3014/3704369760_67efb692d1.jpg">these people</a> are doing right now...</p>
     <div id="feed">
     </div>
     </section>
-    <aside>
-    LOL
-    </aside>
+    <img id="sidebar" src="sidebar.png">
     <script>
 
       $(document).ready(function(){
@@ -30,7 +28,7 @@
           if(index%2==0){
             $tweet.addClass('darkened');
           }
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          $tweet.append($('<p><a href="">' + tweet.user + '</a> ' + tweet.message +'</p>'));
           $tweet.appendTo($feed);
           index -= 1;
         }
